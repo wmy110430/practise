@@ -28,11 +28,30 @@ foreach($items as $key=>$item){
         $map[$key] = $item;
     }
 }
-
-//var_dump($map);exit;
 $result = array_values($map);
 var_dump($result);
+/**
+ * 猴子选大王，n只猴子，数到第m只踢出群，重新从1数，最后剩下的猴子是大王
+ */
+function King($n,$m)
+{
+    if($n<2)
+    {
+        return $n;
+    }
+    $monkeys_arr = range(1,$n);
+    $i = 0;
+    while(count($monkeys_arr)>1)
+    {
+        $head = array_shift($monkeys_arr);
+        if (($i+1)%$m != 0) {
+            array_push($monkey_arr, $head);
+        }
+        $i++;
+    }
 
+    return $monkeys_arr[0];
+}
 //3、得分计算，已知道选题提交的答案是
 $commits= 'A,B,B,A,C,C,D,A,B,C,D,C,C,C,D,A,B,C,D,A';
 //实际的答案是：
