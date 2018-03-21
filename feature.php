@@ -57,22 +57,11 @@ $commits= 'A,B,B,A,C,C,D,A,B,C,D,C,C,C,D,A,B,C,D,A';
 //实际的答案是：
 $answers= 'A,A,B,A,D,C,D,A,A,C,C,D,C,D,A,B,C,D,C,D';
 //每题得分是5分，那么这个同学得分是多少？
-function getScore($commits,$answers)
-{
-    $commit = explode(',',$commits);
-
-    $answer = explode(',',$answers);
-
-    $num = 0;
-    foreach($commit as $key=>$value)
-    {
-        if($value == $answer[$key]) {
-            $num+=5;
-        }
-    }
-
-    return $num;
-}
+$commits_arr = explode(',',$commits);
+$answers_arr = explode(',',$answers);
+$right_arr = array_intersect_assoc($commits_arr,$answers_arr);
+$score = 5*count($right_arr);
+echo $score,PHP_EOL;
 
 
 //5、实现一个对象的数组式访问接口
@@ -142,3 +131,31 @@ function getStrRev($string)
     }
     return implode('',$arr);
 }
+/*
+9.从m个数中选出n个数来(0<n<=m)，要求n个数之间不能有重复，其和等于一个定值k。求一段程序，罗列所有的可能。	
+*/
+define('K', 18);
+
+$nums = array(11, 18, 12, 1, -2, 20, 8, 10, 7, 6);
+
+$numscount = count($nums);
+//每一次左移动都表示“乘以 2”。
+$subscount = 2 << ($numscount - 1); 
+
+
+for ($i = 1; $i < $subscount; $i++) {
+    $subitem = array();
+    $binstr = decbin($i);
+    /填充左边0，实现0补全
+    $binstr = str_pad($binstr, $numscount, '0', STR_PAD_LEFT);/
+    for ($j = 0; $j < $numscount; $j++) {
+        if (1 == $binstr[$j]) {
+            $subitem[] = $nums[$j];
+        }
+    }
+    if (K == array_sum($subitem)) {
+        echo json_encode($subitem) . "\n";
+    }
+}
+
+
